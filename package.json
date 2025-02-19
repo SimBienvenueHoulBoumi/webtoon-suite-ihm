@@ -9,11 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/react-paginate": "^7.1.4",
     "framer-motion": "^12.4.3",
     "lucide-react": "^0.475.0",
     "next": "15.1.7",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-paginate": "^8.3.0",
+    "react-pagination": "^1.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
