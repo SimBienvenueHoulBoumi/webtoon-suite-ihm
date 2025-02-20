@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useEffect, useState, JSX } from "react";
+import { useRef, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { MenuIcon, HomeIcon, LogOutIcon, XIcon } from "lucide-react";
+
+import { logout } from "@/services/auth.services";
 
 export default function Sidebar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -12,7 +14,10 @@ export default function Sidebar() {
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
-  const handleLogout = () => console.log("Déconnexion...");
+  const handleLogout = async () => {
+    await logout();
+    window.location.reload();
+  };
 
   const links = [
     { href: "/dashboard/home", icon: <HomeIcon size={15} />, label: "Home" },
@@ -48,7 +53,7 @@ export default function Sidebar() {
       <div className="pt-12">
         <nav className="flex flex-col items-start space-y-2 mt-4 w-full px-2">
           <button
-            className={`menu-toggle p-2 rounded-md bg-gray-800 text-white absolute top-4 left-3.5`}
+            className={`menu-toggle p-2 rounded-full bg-gray-800 text-white absolute top-4 left-3.5`}
             onClick={toggleMenu}
           >
             {menuOpen ? <XIcon size={18} /> : <MenuIcon size={20} />}

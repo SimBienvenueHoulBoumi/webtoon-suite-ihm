@@ -1,8 +1,11 @@
 export interface Anime {
-  id: number;
+  id?: number;
   title: string;
-  season: number;
-  episodesWatched: number;
-  totalEpisodes: number;
+  type: string;
   status: string;
+  season?: number;
+  episodes?: number;
+  chapters?: number;
+  currentEp?: number;
+  currentChap?: number;
 }
