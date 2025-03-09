@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { LogIn, UserPlus, User, Mail, Lock } from "lucide-react";
 
 import { toast } from "react-toastify";
 
-import { login } from "@/services/auth.services";
+import { login, getTokenValue } from "@/services/auth.services";
 
 export default function App() {
   const [isLogin, setIsLogin] = useState(true);
@@ -15,23 +15,54 @@ export default function App() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  /**
+   * Gère la soumission du formulaire de connexion ou d'inscription.
+   * Effectue l'authentification de l'utilisateur avec les informations fournies.
+   * Affiche un message de succès ou d'erreur et redirige en cas de succès.
+   *
+   * @param {React.FormEvent} e - L'événement du formulaire.
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     const success = await login(email, password);
 
-    setTimeout(() => {
-      setIsLoading(false);
-      window.location.reload();
-    }, 5000);
-
     if (success) {
-      toast.success("Wellcome back!");
+      toast.success("Welcome back!");
+
+      setTimeout(() => {
+        window.location.href = "/dashboard/home"; // Redirection après connexion réussie
+      }, 1000);
     } else {
       toast.error("Invalid credentials");
+      setIsLoading(false);
     }
   };
+
+  /**
+   * Vérifie si l'utilisateur est déjà authentifié au chargement du composant.
+   * Si un token est trouvé, l'utilisateur est redirigé vers la page d'accueil.
+   */
+  useEffect(() => {
+    let isMounted = true; // Empêche l'exécution si le composant est démonté
+
+    const checkAuth = async () => {
+      const token = await getTokenValue();
+
+      if (token && isMounted) {
+        if (window.location.pathname !== "/") {
+          window.location.href = "/";
+        }
+      }
+    };
+
+    checkAuth();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <div className="flex items-center justify-center min-h-screen text-gray-500 p-6">

@@ -24,7 +24,7 @@ export default function DashboardLayout({
       </div>
 
       <div
-        className={`flex-1 flex flex-col px-20 overflow-auto h-full transition-all duration-200 ease-in-out ml-0 sm:ml-${
+        className={`flex-1 flex flex-col px-16 overflow-auto h-full transition-all duration-200 ease-in-out ml-0 sm:ml-${
           menuOpen ? "64" : "16"
         }`}
       >

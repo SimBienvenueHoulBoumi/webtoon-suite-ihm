@@ -51,13 +51,15 @@ export default function Sidebar() {
       }`}
     >
       <div className="pt-12">
-        <nav className="flex flex-col items-start space-y-2 mt-4 w-full px-2">
-          <button
-            className={`menu-toggle p-2 rounded-full bg-gray-800 text-white absolute top-4 left-3.5`}
-            onClick={toggleMenu}
-          >
-            {menuOpen ? <XIcon size={18} /> : <MenuIcon size={20} />}
-          </button>
+        <nav className="flex flex-col items-start space-y-2 mt-2 w-full px-2">
+          <div className="w-full">
+            <button
+              className={`menu-toggle p-2 rounded-full bg-gray-800 text-white absolute top-4 left-3.5`}
+              onClick={toggleMenu}
+            >
+              {menuOpen ? <XIcon size={18} /> : <MenuIcon size={20} />}
+            </button>
+          </div>
 
           <div className="mt-2 w-full">
             {links.map((link, index) => {
@@ -106,9 +108,7 @@ export default function Sidebar() {
             <LogOutIcon size={17} />
           </div>
           {menuOpen && (
-            <span className="text-sm ml-3 hover:text-gray-400">
-              Déconnexion
-            </span>
+            <span className="text-sm ml-3 hover:text-gray-400">Logout</span>
           )}
         </button>
       </div>

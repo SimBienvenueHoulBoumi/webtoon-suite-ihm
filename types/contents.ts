@@ -1,11 +1,10 @@
-export interface Anime {
+export type Content = {
   id?: number;
   title: string;
   type: string;
   status: string;
-  season?: number;
   episodes?: number;
   chapters?: number;
-  currentEp?: number;
-  currentChap?: number;
-}
+  currentEpisode?: number;
+  currentChapter?: number;
+};
