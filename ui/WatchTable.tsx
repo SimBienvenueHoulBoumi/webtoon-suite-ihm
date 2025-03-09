@@ -1,7 +1,7 @@
-import { Pencil, Trash } from "lucide-react";
+import { ArrowLeftToLine, ArrowRightToLine, Pencil, Trash } from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import Modal from "./Modal"; // Assure-toi d'importer la modal
+import Modal from "./Modal";
 
 interface WatchItem {
   id: number;
@@ -34,6 +34,20 @@ export default function WatchTable({
     null
   );
 
+  // Fonction pour définir la couleur en fonction du type
+  const getTypeColor = (type: string) => {
+    switch (type) {
+      case "ANIME":
+        return "bg-blue-500";
+      case "MANGA":
+        return "bg-green-500";
+      case "WEBTOON":
+        return "bg-yellow-500";
+      default:
+        return "bg-gray-400";
+    }
+  };
+
   const handleUpdate = async (id: number) => {
     setActionType("update");
     setSelectedItem(data.find((item) => item.id === id) || null);
@@ -49,11 +63,9 @@ export default function WatchTable({
   const handleConfirmAction = async () => {
     if (selectedItem && actionType) {
       if (actionType === "update") {
-        // Effectuer l'action de mise à jour ici
-        toast.success(`Mise à jour de ${selectedItem.title}`);
+        toast.success(`updated success of ${selectedItem.title}`);
       } else if (actionType === "delete") {
-        // Effectuer l'action de suppression ici
-        toast.success(`Suppression de ${selectedItem.title}`);
+        toast.success(`deleted success of ${selectedItem.title}`);
       }
     }
 
@@ -62,26 +74,33 @@ export default function WatchTable({
 
   return (
     <div className="overflow-x-auto w-3/4">
-      <table className="bg-white shadow-md rounded-lg overflow-hidden w-full">
-        <thead className="bg-gray-200 text-gray-700 uppercase text-sm">
+      <table className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
+        <thead className="bg-gray-100 text-gray-700 uppercase text-sm">
           <tr>
-            <th className="px-4 py-2 text-left">Title</th>
-            <th className="px-4 py-2 text-left">Type</th>
-            <th className="px-4 py-2 text-center">Episode</th>
-            <th className="px-4 py-2 text-center">Chapter</th>
-            <th className="px-4 py-2 text-center">Update</th>
-            <th className="px-4 py-2 text-center">Delete</th>
+            <th className="px-6 py-3 text-left">Title</th>
+            <th className="px-6 py-3 text-left">Type</th>
+            <th className="px-6 py-3 text-center">Episode</th>
+            <th className="px-6 py-3 text-center">Chapter</th>
+            <th className="px-6 py-3 text-center">Actions</th>
           </tr>
         </thead>
-        <tbody className="text-xs">
+        <tbody className="text-gray-800 text-xs">
           {data.length > 0 ? (
             data.map((item) => (
               <tr
                 key={item.id}
-                className="border-b hover:bg-gray-50 transition-colors"
+                className="border-b hover:bg-gray-100 transition-all"
               >
                 <td className="px-4 py-2">{item.title}</td>
-                <td className="px-4 py-2">{item.type}</td>
+                <td className="px-4 py-2">
+                  <span
+                    className={`px-3 py-1 text-xs font-semibold text-white rounded-full shadow-md ${getTypeColor(
+                      item.type
+                    )}`}
+                  >
+                    {item.type}
+                  </span>
+                </td>
                 <td className="px-4 py-2 text-center">
                   {item.currentEp ?? "-"}
                 </td>
@@ -89,22 +108,20 @@ export default function WatchTable({
                   {item.currentChap ?? "-"}
                 </td>
                 <td className="px-4 py-2">
-                  <div className="flex justify-center">
+                  <div className="flex items-center justify-center gap-4">
                     <button
-                      className="flex items-center gap-2 px-3 py-1 font-medium text-white bg-yellow-500 rounded-md shadow-md hover:bg-yellow-600 hover:opacity-80 transition-all"
+                      className="p-2 bg-yellow-500 text-white rounded-full shadow-md hover:bg-yellow-600 transition-all"
                       onClick={() => handleUpdate(item.id)}
+                      aria-label="Edit"
                     >
-                      <Pencil size={16} /> Update
+                      <Pencil size={13} />
                     </button>
-                  </div>
-                </td>
-                <td className="px-4 py-2">
-                  <div className="flex justify-center">
                     <button
-                      className="flex items-center gap-2 px-3 py-1 font-medium text-white bg-red-500 rounded-md shadow-md hover:bg-red-600 hover:opacity-80 transition-all"
+                      className="p-2 bg-red-500 text-white rounded-full shadow-md hover:bg-red-600 transition-all"
                       onClick={() => handleDelete(item.id)}
+                      aria-label="Delete"
                     >
-                      <Trash size={16} /> Delete
+                      <Trash size={13} />
                     </button>
                   </div>
                 </td>
@@ -112,7 +129,7 @@ export default function WatchTable({
             ))
           ) : (
             <tr>
-              <td colSpan={6} className="text-center py-4 text-gray-500">
+              <td colSpan={5} className="text-center py-6 text-gray-500">
                 No data available
               </td>
             </tr>
@@ -123,21 +140,21 @@ export default function WatchTable({
       {watchlistData && (
         <div className="mt-4 flex justify-center items-center space-x-2 text-xs">
           <button
-            className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
+            className="p-2 rounded-full bg-gray-200  hover:bg-gray-300"
             onClick={() => handlePageChange(watchlistData.currentPage - 1)}
             disabled={watchlistData.currentPage <= 1}
           >
-            Précédent
+            <ArrowLeftToLine size={13} />
           </button>
           <span>
-            Page {watchlistData.currentPage} sur {watchlistData.totalPages}
+            page {watchlistData.currentPage} on {watchlistData.totalPages}
           </span>
           <button
-            className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
+            className="p-2 rounded-full bg-gray-200 hover:bg-gray-300"
             onClick={() => handlePageChange(watchlistData.currentPage + 1)}
             disabled={watchlistData.currentPage >= watchlistData.totalPages}
           >
-            Suivant
+            <ArrowRightToLine size={13} />
           </button>
         </div>
       )}

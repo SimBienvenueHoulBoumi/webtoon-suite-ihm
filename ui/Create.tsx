@@ -3,6 +3,8 @@
 import { Select } from "./Select";
 import { Input } from "./Input";
 
+import { Delete, CheckCircleIcon } from "lucide-react";
+
 export enum ContentType {
   ANIME = "ANIME",
   MANGA = "MANGA",
@@ -103,18 +105,18 @@ export default function Create({
       />
 
       {/* Boutons d'action */}
-      <div className="flex justify-between">
+      <div className="flex justify-end space-x-2">
         <button
           onClick={closeModal}
           className="bg-gray-400 text-white p-2 uppercase rounded-md shadow-md hover:bg-gray-500 transition-all"
         >
-          Cancel
+          <Delete size={15} />
         </button>
         <button
           onClick={onSubmit}
           className="bg-green-600 text-white p-2 uppercase rounded-md shadow-md hover:bg-green-700 transition-all"
         >
-          Confirm
+          <CheckCircleIcon size={15} />
         </button>
       </div>
     </div>

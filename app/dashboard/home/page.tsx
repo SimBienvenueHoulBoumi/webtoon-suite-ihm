@@ -70,8 +70,6 @@ export default function Page() {
   }, [watchlistData?.currentPage]); // Effect dépendant de l'état de la page courante
 
   const handleCreateSubmit = async (event?: React.FormEvent) => {
-    event?.preventDefault();
-
     if (!selectedValue || !title) {
       toast.error("Veuillez remplir tous les champs !");
       return;
