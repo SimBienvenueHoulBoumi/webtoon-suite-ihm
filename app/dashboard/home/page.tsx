@@ -12,11 +12,12 @@ import { WatchData, WatchItem } from "@/types/watchlist";
 export default function Page() {
   const [selectedValue, setSelectedValue] = useState<string>("");
   const [title, setTitle] = useState<string>("");
-  const [currentEp, setCurrentEp] = useState<number>(0);
-  const [currentChap, setCurrentChap] = useState<number>(0);
+  const [currentEp, setCurrentEp] = useState<number | "">("");
+  const [currentChap, setCurrentChap] = useState<number | "">("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [watchlistData, setWatchlistData] = useState<WatchData | null>(null);
   const [watchlist, setWatchlist] = useState<WatchItem[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Évite les soumissions multiples
 
   const fetchWatchlist = async (page: number = 1) => {
     try {
@@ -62,41 +63,48 @@ export default function Page() {
     fetchWatchlist(page);
   };
 
+  const refreshData = () => {
+    fetchWatchlist(watchlistData?.currentPage || 1);
+  };
+
   useEffect(() => {
-    // On refait le fetch seulement si `watchlistData` et `currentPage` ont changé
-    if (watchlistData?.currentPage) {
-      fetchWatchlist(watchlistData.currentPage);
-    }
-  }, [watchlistData?.currentPage]); // Effect dépendant de l'état de la page courante
+    fetchWatchlist(1);
+  }, []);
+
+  const resetForm = () => {
+    setSelectedValue("");
+    setTitle("");
+    setCurrentEp("");
+    setCurrentChap("");
+  };
 
   const handleCreateSubmit = async (event?: React.FormEvent) => {
+    event?.preventDefault();
     if (!selectedValue || !title) {
       toast.error("Veuillez remplir tous les champs !");
       return;
     }
 
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
     try {
-      await createWatchlist(title, selectedValue, currentEp, currentChap);
-      toast.success("📌 Données enregistrées avec succès !");
+      await createWatchlist(
+        title,
+        selectedValue,
+        currentEp || 0,
+        currentChap || 0
+      );
+      resetForm();
       setIsModalOpen(false);
-      fetchWatchlist();
+      refreshData();
     } catch (error) {
       toast.error("Erreur lors de l'enregistrement.");
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
-
-  useEffect(() => {
-    fetchWatchlist();
-  }, []);
-
-  useEffect(() => {
-    // On charge les données initiales (page 1 par défaut)
-    if (watchlistData) {
-      fetchWatchlist(watchlistData.currentPage); // Charge la page actuelle de manière dynamique
-    } else {
-      fetchWatchlist(1); // Si pas de pagination, commencer par la page 1
-    }
-  }, [watchlistData?.currentPage]); // Change uniquement quand `watchlistData` est modifié.
 
   return (
     <div className="w-full flex flex-col items-start space-y-4">
@@ -126,6 +134,7 @@ export default function Page() {
         data={watchlist}
         watchlistData={watchlistData}
         handlePageChange={handlePageChange}
+        refreshData={refreshData}
       />
     </div>
   );

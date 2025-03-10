@@ -93,9 +93,50 @@ export const getWatchlist = async (
   }
 };
 
+/**
+ * Supprime un élément d'une watchlist
+ * @param id - Identifiant de l'élément à supprimer
+ */
+export const deleteWatch = async (id: number) => {
+  try {
+    await fetch(`${process.env.API_HOST}/watchlist/${id}`, {
+      method: "DELETE",
+      headers: await getAuthHeader(),
+    });
+
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};
+
 
 /**
- * Mettre de jour une watchlist
- * @param
- * 
+ * Met à jour un élément d'une watchlist
  */
+export const updateWatchlist = async (
+  id: number,
+  currentEp: number,
+  currentChap: number
+) => {
+  try {
+    const response = await fetch(`${process.env.API_HOST}/watchlist?id=${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        ...(await getAuthHeader()),
+      },
+      body: JSON.stringify({ currentEp, currentChap }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Erreur lors de la mise à jour de la watchlist");
+    }
+
+    return { success: true, message: await response.text() };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
+  }
+};
+
+
+
