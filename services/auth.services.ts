@@ -25,6 +25,25 @@ export const login = async (username: string, password: string) => {
   return false;
 };
 
+export const register = async (username: string, password: string) => {
+  const response = await fetch(`${process.env.API_HOST}/auth/signup`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, password }),
+  });
+
+  if (response.ok) {
+    return true;
+  }
+
+  return false;
+};
+
+
+
+
 export const logout = async () => {
   const cookieStore = await cookies();
   await cookieStore.delete("access_token");
