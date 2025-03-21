@@ -1,3 +1,33 @@
+/**
+ * @file Input.tsx
+ * @description Composant champ de saisie réutilisable.
+ * 
+ * ## Utilisation simple :
+ * 
+ * ```tsx
+ * import { useState } from "react";
+ * import { Input } from "./Input";
+ * 
+ * function App() {
+ *   const [text, setText] = useState("");
+ * 
+ *   return (
+ *     <Input
+ *       id="example"
+ *       value={text}
+ *       onChange={setText}
+ *       placeholder="Entrez du texte"
+ *       type="text"
+ *     />
+ *   );
+ * }
+ * 
+ * export default App;
+ * ```
+ * 
+ * Ce composant gère automatiquement l'état de focus et applique des styles dynamiques.
+ */
+
 "use client";
 
 import { useState } from "react";

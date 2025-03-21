@@ -1,4 +1,28 @@
-"use client";
+/**
+ * @file Select.tsx
+ * @description Composant de sélection déroulante simple.
+ * 
+ * ## Utilisation simple :
+ * 
+ * ```tsx
+ * import { useState } from "react";
+ * import { Select } from "./Select";
+ * 
+ * function App() {
+ *   const [selected, setSelected] = useState("");
+ *   const options = [
+ *     { label: "Option 1", value: "option1" },
+ *     { label: "Option 2", value: "option2" }
+ *   ];
+ * 
+ *   return (
+ *     <Select options={options} value={selected} onChange={setSelected} placeholder="Choisir..." />
+ *   );
+ * }
+ * 
+ * export default App;
+ * ```
+ */
 
 import { useState } from "react";
 

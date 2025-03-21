@@ -1,3 +1,32 @@
+/**
+ * @file Modal.tsx
+ * @description Composant de modal animé avec fermeture en cliquant à l'extérieur.
+ * 
+ * ## Utilisation simple :
+ * 
+ * ```tsx
+ * import { useState } from "react";
+ * import Modal from "./Modal";
+ * 
+ * function App() {
+ *   const [isOpen, setIsOpen] = useState(false);
+ * 
+ *   return (
+ *     <div>
+ *       <button onClick={() => setIsOpen(true)}>Ouvrir la modal</button>
+ *       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+ *         <p>Contenu de la modal</p>
+ *       </Modal>
+ *     </div>
+ *   );
+ * }
+ * 
+ * export default App;
+ * ```
+ * 
+ * Ce composant utilise `framer-motion` pour les animations et gère la fermeture en cliquant à l'extérieur.
+ */
+
 "use client";
 import { XCircleIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";

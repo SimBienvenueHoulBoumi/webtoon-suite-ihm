@@ -1,3 +1,49 @@
+/**
+ * @file Create.tsx
+ * @description Composant pour ajouter un contenu (Anime, Manga, Webtoon).
+ * 
+ * ## Utilisation simple :
+ * 
+ * ```tsx
+ * import { useState } from "react";
+ * import Create from "./Create";
+ * 
+ * function App() {
+ *   const [type, setType] = useState("");
+ *   const [title, setTitle] = useState("");
+ *   const [episode, setEpisode] = useState("");
+ *   const [chapter, setChapter] = useState("");
+ * 
+ *   const handleSave = () => {
+ *     console.log("Ajouté :", { type, title, episode, chapter });
+ *   };
+ * 
+ *   return (
+ *     <Create
+ *       selectedValue={type}
+ *       setSelectedValue={setType}
+ *       title={title}
+ *       setTitle={setTitle}
+ *       currentEp={episode}
+ *       setCurrentEp={setEpisode}
+ *       currentChap={chapter}
+ *       setCurrentChap={setChapter}
+ *       onSubmit={handleSave}
+ *       closeModal={() => console.log("Fermeture du formulaire")}
+ *     />
+ *   );
+ * }
+ * 
+ * export default App;
+ * ```
+ * 
+ * Ce composant utilise :
+ * - `react-toastify` pour les notifications
+ * - `lucide-react` pour les icônes
+ * - `./Select` et `./Input` pour les champs de saisie
+ */
+
+
 "use client";
 
 import { Select } from "./Select";
@@ -39,7 +85,6 @@ export default function Create({
     value,
   }));
 
-  // Fonction pour réinitialiser les champs après validation
   const resetForm = () => {
     setSelectedValue("");
     setTitle("");
@@ -54,10 +99,10 @@ export default function Create({
     }
 
     try {
-      onSubmit(); // Appelle la fonction de soumission
+      onSubmit();
       toast.success("Content added successfully!");
-      resetForm(); // Réinitialise le formulaire
-      closeModal(); // Ferme la modal (optionnel)
+      resetForm();
+      closeModal();
     } catch (error) {
       toast.error("An error occurred while adding content.");
     }

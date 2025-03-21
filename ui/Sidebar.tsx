@@ -1,10 +1,33 @@
+/**
+ * @file Sidebar.tsx
+ * @description Composant de barre latérale avec menu responsive.
+ * 
+ * ## Utilisation simple :
+ * 
+ * ```tsx
+ * import Sidebar from "./Sidebar";
+ * 
+ * function App() {
+ *   return (
+ *     <div className="flex">
+ *       <Sidebar />
+ *       <main className="flex-1 p-4">Contenu principal</main>
+ *     </div>
+ *   );
+ * }
+ * 
+ * export default App;
+ * ```
+ * 
+ * Ce composant s'adapte aux écrans mobiles et gère l'état du menu avec `useState`.
+ */
+
 "use client";
 
 import Link from "next/link";
 import { useRef, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { MenuIcon, HomeIcon, LogOutIcon, XIcon } from "lucide-react";
-
 import { logout } from "@/services/auth.services";
 
 export default function Sidebar() {
@@ -29,9 +52,7 @@ export default function Sidebar() {
     };
 
     window.addEventListener("resize", handleResize);
-
     handleResize();
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -54,7 +75,7 @@ export default function Sidebar() {
         <nav className="flex flex-col items-start space-y-2 mt-2 w-full px-2">
           <div className="w-full">
             <button
-              className={`menu-toggle p-2 rounded-full bg-gray-800 text-white absolute top-4 left-3.5`}
+              className="menu-toggle p-2 rounded-full bg-gray-800 text-white absolute top-4 left-3.5"
               onClick={toggleMenu}
             >
               {menuOpen ? <XIcon size={18} /> : <MenuIcon size={20} />}

@@ -1,3 +1,25 @@
+/**
+ * WatchTable Component
+ * 
+ * Ce composant affiche une liste d'éléments regardés sous forme de tableau.
+ * Il permet de modifier et supprimer les éléments via des boutons d'action.
+ * 
+ * @param {Object} props - Les propriétés du composant
+ * @param {WatchItem[]} props.data - Liste des éléments à afficher
+ * @param {WatchData | null} props.watchlistData - Données de la watchlist pour la pagination
+ * @param {function} props.handlePageChange - Fonction pour changer de page
+ * @param {function} props.refreshData - Fonction pour rafraîchir les données après modification
+ * 
+ * Exemple d'utilisation :
+ * <WatchTable 
+ *    data={watchItems} 
+ *    watchlistData={watchlistData} 
+ *    handlePageChange={handlePageChange} 
+ *    refreshData={refreshData} 
+ * />
+ */
+
+
 "use client";
 
 import { Trash2, XCircle, Pencil, CheckCircle } from "lucide-react";
@@ -6,7 +28,7 @@ import { toast } from "react-toastify";
 import Modal from "./Modal";
 import { deleteWatch, updateWatchlist } from "@/services/watchlist.services";
 import { WatchData, WatchItem } from "@/types/watchlist";
-import { Input } from "./Input"; // Importation du composant Input
+import { Input } from "./Input";
 
 export default function WatchTable({
   data,
